@@ -1,0 +1,51 @@
+info:
+  contact: {}
+paths:
+  /v1/user:
+    post:
+      consumes:
+      - application/json
+      description: 說明
+      produces:
+      - application/json
+      responses: {}
+      summary: 新增
+      tags:
+      - 用戶
+  /v1/user/:id:
+    delete:
+      description: 說明
+      produces:
+      - application/json
+      responses: {}
+      summary: 刪除
+      tags:
+      - 用戶
+    get:
+      description: 說明
+      produces:
+      - application/json
+      responses: {}
+      summary: 查單筆
+      tags:
+      - 用戶
+    patch:
+      consumes:
+      - application/json
+      description: 說明
+      produces:
+      - application/json
+      responses: {}
+      summary: 部份更新
+      tags:
+      - 用戶
+  /v1/users:
+    get:
+      description: 說明
+      produces:
+      - application/json
+      responses: {}
+      summary: 查多筆
+      tags:
+      - 用戶
+swagger: "2.0"

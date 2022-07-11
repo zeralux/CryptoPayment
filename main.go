@@ -2,11 +2,18 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	controllerV1 "github.com/zeralux/gin/controller/v1"
+	docs "github.com/zeralux/gin/docs"
 )
 
 func main() {
 	router := gin.Default()
+
+	// swagger
+	docs.SwaggerInfo.BasePath = "/"
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// 對外API, GateWay不檢查token
 	commonApi := router.Group("/")
