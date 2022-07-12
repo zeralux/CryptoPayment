@@ -1,32 +1,40 @@
+definitions:
+  model.User:
+    properties:
+      id:
+        description: 識別碼
+        example: "123"
+        type: string
+      name:
+        description: 姓名
+        example: david
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /v1/user:
+  /internal/v1/user:
     post:
-      consumes:
-      - application/json
-      description: 說明
+      parameters:
+      - description: 會員資料
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
       produces:
       - application/json
       responses: {}
       summary: 新增
       tags:
       - 用戶
-  /v1/user/:id:
+  /internal/v1/user/{id}:
     delete:
       description: 說明
       produces:
       - application/json
       responses: {}
       summary: 刪除
-      tags:
-      - 用戶
-    get:
-      description: 說明
-      produces:
-      - application/json
-      responses: {}
-      summary: 查單筆
       tags:
       - 用戶
     patch:
@@ -39,9 +47,28 @@ paths:
       summary: 部份更新
       tags:
       - 用戶
+  /private/v1/user/{id}:
+    get:
+      parameters:
+      - description: 會員id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 查單筆
+      tags:
+      - 用戶
   /v1/users:
     get:
-      description: 說明
+      parameters:
+      - description: 會員姓名
+        in: query
+        name: name
+        required: true
+        type: string
       produces:
       - application/json
       responses: {}

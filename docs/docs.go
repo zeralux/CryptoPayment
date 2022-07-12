@@ -16,12 +16,8 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/user": {
+        "/internal/v1/user": {
             "post": {
-                "description": "說明",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
@@ -29,21 +25,21 @@ const docTemplate = `{
                     "用戶"
                 ],
                 "summary": "新增",
+                "parameters": [
+                    {
+                        "description": "會員資料",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
                 "responses": {}
             }
         },
-        "/v1/user/:id": {
-            "get": {
-                "description": "說明",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "用戶"
-                ],
-                "summary": "查單筆",
-                "responses": {}
-            },
+        "/internal/v1/user/{id}": {
             "delete": {
                 "description": "說明",
                 "produces": [
@@ -70,9 +66,29 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/private/v1/user/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用戶"
+                ],
+                "summary": "查單筆",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "會員id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/v1/users": {
             "get": {
-                "description": "說明",
                 "produces": [
                     "application/json"
                 ],
@@ -80,7 +96,33 @@ const docTemplate = `{
                     "用戶"
                 ],
                 "summary": "查多筆",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "會員姓名",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "model.User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "識別碼",
+                    "type": "string",
+                    "example": "123"
+                },
+                "name": {
+                    "description": "姓名",
+                    "type": "string",
+                    "example": "david"
+                }
             }
         }
     }
