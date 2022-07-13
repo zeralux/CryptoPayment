@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/zeralux/gin/model"
+	"io"
 	"net/http"
+	"os"
 )
 
 // GetUser
@@ -83,4 +85,24 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "UpdateUser",
 	})
+}
+
+// GetUsers
+// @Tags 用戶
+// @Summary 下載
+// @param file path string true "檔案類型" default(csv)
+// @Produce application/octet-stream
+// @Router /v1/users/{file} [get]
+func GetUsersFile(c *gin.Context) {
+	downloadName := "test.csv"
+	header := c.Writer.Header()
+	header["Content-type"] = []string{"application/octet-stream"}
+	header["Content-Disposition"] = []string{"attachment; filename= " + downloadName}
+	file, err := os.Open("test.csv")
+	if err != nil {
+		c.String(http.StatusOK, "%v", err)
+		return
+	}
+	defer file.Close()
+	io.Copy(c.Writer, file)
 }

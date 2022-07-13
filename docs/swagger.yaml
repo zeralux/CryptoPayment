@@ -100,4 +100,19 @@ paths:
       summary: 查多筆
       tags:
       - 用戶
+  /v1/users/{file}:
+    get:
+      parameters:
+      - default: csv
+        description: 檔案類型
+        in: path
+        name: file
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses: {}
+      summary: 下載
+      tags:
+      - 用戶
 swagger: "2.0"

@@ -20,6 +20,7 @@ func main() {
 	ver1Url := router.Group(constant.Ver1Url)
 	{
 		ver1Url.GET(constant.UsersUrl, controllerV1.GetUsers)
+		ver1Url.GET(constant.UsersFileUrl, controllerV1.GetUsersFile)
 	}
 
 	// 對外API, GateWay檢查token

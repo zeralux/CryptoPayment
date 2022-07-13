@@ -132,6 +132,28 @@ const docTemplate = `{
                 ],
                 "responses": {}
             }
+        },
+        "/v1/users/{file}": {
+            "get": {
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "用戶"
+                ],
+                "summary": "下載",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "csv",
+                        "description": "檔案類型",
+                        "name": "file",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
