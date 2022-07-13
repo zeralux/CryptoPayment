@@ -103,6 +103,31 @@ const docTemplate = `{
                         "name": "name",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "enum": [
+                            "A",
+                            "B",
+                            "C"
+                        ],
+                        "type": "string",
+                        "description": "職級",
+                        "name": "level",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "enum": [
+                                "CreditCard",
+                                "LinePay",
+                                "ApplePay"
+                            ],
+                            "type": "string"
+                        },
+                        "description": "支付方式",
+                        "name": "method",
+                        "in": "query"
                     }
                 ],
                 "responses": {}

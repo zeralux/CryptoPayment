@@ -24,12 +24,16 @@ func GetUser(c *gin.Context) {
 // @Tags 用戶
 // @Summary 查多筆
 // @param name query string true "會員姓名"
+// @param level query string false "職級" Enums(A,B,C)
+// @param method query []string false "支付方式" Enums(CreditCard,LinePay,ApplePay)
 // @Produce json
 // @Router /v1/users [get]
 func GetUsers(c *gin.Context) {
 	name := c.Request.URL.Query().Get("name")
+	level := c.Request.URL.Query().Get("level")
 	c.JSON(http.StatusOK, gin.H{
-		"message": "GetUsers name=" + name,
+		"name":  name,
+		"level": level,
 	})
 }
 

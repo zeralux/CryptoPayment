@@ -69,6 +69,24 @@ paths:
         name: name
         required: true
         type: string
+      - description: 職級
+        enum:
+        - A
+        - B
+        - C
+        in: query
+        name: level
+        type: string
+      - description: 支付方式
+        in: query
+        items:
+          enum:
+          - CreditCard
+          - LinePay
+          - ApplePay
+          type: string
+        name: method
+        type: array
       produces:
       - application/json
       responses: {}
