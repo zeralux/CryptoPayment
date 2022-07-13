@@ -126,10 +126,20 @@
         "model.User": {
             "type": "object",
             "properties": {
-                "id": {
-                    "description": "識別碼",
+                "level": {
+                    "description": "職級",
                     "type": "string",
-                    "example": "123"
+                    "example": "A"
+                },
+                "method": {
+                    "description": "支付方式",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "ApplePay"
+                    ]
                 },
                 "name": {
                     "description": "姓名",

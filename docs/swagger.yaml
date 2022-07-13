@@ -1,10 +1,17 @@
 definitions:
   model.User:
     properties:
-      id:
-        description: 識別碼
-        example: "123"
+      level:
+        description: 職級
+        example: A
         type: string
+      method:
+        description: 支付方式
+        example:
+        - ApplePay
+        items:
+          type: string
+        type: array
       name:
         description: 姓名
         example: david
