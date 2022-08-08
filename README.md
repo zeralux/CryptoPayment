@@ -6,10 +6,11 @@
 
 #### 啟動HTTP服務
     # swag init
+    
     $ run example.go and visit 0.0.0.0:8080/ping (for windows "localhost:8080/ping") on browser
     # go run main.go
 
-#### 預設頁面
+#### swagger預設頁面
 + http://localhost:8080/swagger/index.html
 
 #### Example
