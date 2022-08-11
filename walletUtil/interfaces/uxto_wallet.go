@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"github.com/zeralux/gin/utils/walletUtil/model"
+	"github.com/zeralux/gin/walletUtil/model"
 )
 
 type UxtoWallet interface {

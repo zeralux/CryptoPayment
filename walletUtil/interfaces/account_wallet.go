@@ -1,6 +1,8 @@
 package interfaces
 
-import "github.com/zeralux/gin/utils/walletUtil/model"
+import (
+	"math/big"
+)
 
 type AccountWallet interface {
 	Wallet
@@ -8,7 +10,7 @@ type AccountWallet interface {
 }
 
 type accountTransfer interface {
-	GetUnsignTx(transfer model.Transfer) (string, error)
+	GetUnsignTx(senderAddress, reeevierAddress string, value big.Int) (string, error)
 	SignTx(privateKey string, unsignTx string) (string, error)
 	SendTx(signTx string) (string, error)
 }
