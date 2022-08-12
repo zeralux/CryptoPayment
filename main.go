@@ -1,15 +1,26 @@
 package main
 
 import (
+	"flag"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/zeralux/gin/constant"
 	controllerV1 "github.com/zeralux/gin/controller/v1"
 	docs "github.com/zeralux/gin/docs"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
 )
 
+var configLocation = flag.String("config.location", "application-local.yml", "config file location")
+var config *Config
+
 func main() {
+	flag.Parse()
+	// 讀取config
+	readConfig()
+
+	// gin start
 	router := gin.Default()
 
 	// swagger
@@ -45,4 +56,24 @@ func main() {
 
 	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 	router.Run()
+}
+
+type Config struct {
+	//Wallet struct {
+	//	Limit struct {
+	//		Address map[string]int64 `yaml:",flow"`
+	//	} `yaml:"balance-limit"`
+	//}
+}
+
+func readConfig() {
+	var err error
+	var bytes []byte
+	if bytes, err = ioutil.ReadFile(*configLocation); err != nil {
+		panic(err)
+	}
+	config = &Config{}
+	if err = yaml.Unmarshal(bytes, config); err != nil {
+		panic(err)
+	}
 }

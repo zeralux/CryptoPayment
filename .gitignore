@@ -18,3 +18,4 @@
 .idea/vcs.xml
 go.sum
 .idea/inspectionProfiles/Project_Default.xml
+/bin/
