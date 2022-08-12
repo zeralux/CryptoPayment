@@ -1,12 +1,13 @@
 module github.com/zeralux/gin
 
-go 1.18
+go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe
 	github.com/swaggo/gin-swagger v1.5.1
 	github.com/swaggo/swag v1.8.3
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
