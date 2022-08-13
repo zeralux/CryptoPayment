@@ -1,10 +1,10 @@
 ## 目標
-+ 區塊鏈支付服務
++ 區塊鏈加密貨幣支付服務
 + docker
 + swagger
 + gin framework
 + gorm framework
-+ 支援多加密貨幣幣種
++ 支援多幣種
 
 ## docker
 ## 1. 啟動Mysql
