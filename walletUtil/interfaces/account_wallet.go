@@ -1,6 +1,6 @@
 package interfaces
 
-import "github.com/zeralux/gin/walletUtil/model"
+import "github.com/zeralux/CryptoPayment/walletUtil/model"
 
 type AccountWallet interface {
 	NewWallet(token *model.Token) AccountWallet

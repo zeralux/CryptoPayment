@@ -5,9 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/zeralux/gin/constant"
-	controllerV1 "github.com/zeralux/gin/controller/v1"
-	docs "github.com/zeralux/gin/docs"
+	"github.com/zeralux/CryptoPayment/constant"
+	controllerV1 "github.com/zeralux/CryptoPayment/controller/v1"
+	docs "github.com/zeralux/CryptoPayment/docs"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 )

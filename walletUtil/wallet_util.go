@@ -2,9 +2,9 @@ package walletUtil
 
 import (
 	"errors"
-	"github.com/zeralux/gin/walletUtil/interfaces"
-	"github.com/zeralux/gin/walletUtil/model"
-	"github.com/zeralux/gin/walletUtil/util"
+	"github.com/zeralux/CryptoPayment/walletUtil/interfaces"
+	"github.com/zeralux/CryptoPayment/walletUtil/model"
+	"github.com/zeralux/CryptoPayment/walletUtil/util"
 )
 
 var accountWallets = []interfaces.AccountWallet{

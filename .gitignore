@@ -13,7 +13,7 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-.idea/gin.iml
+.idea/CryptoPayment.iml
 .idea/modules.xml
 .idea/vcs.xml
 go.sum
