@@ -10,6 +10,6 @@ type TokenId struct {
 	assetName AssetName
 }
 
-func (t *Token) TokenId() TokenId {
+func (t *Token) GetId() TokenId {
 	return t.id
 }

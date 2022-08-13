@@ -4,8 +4,7 @@ import (
 	"math/big"
 )
 
-type TransferData struct {
-	Token           *Token
+type TransferReq struct {
 	SenderAddress   string
 	RecieverAddress string
 	Value           *big.Int
