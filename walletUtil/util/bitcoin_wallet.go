@@ -1,11 +1,17 @@
 package util
 
 import (
+	"github.com/zeralux/gin/walletUtil/interfaces"
 	"github.com/zeralux/gin/walletUtil/model"
 	"math/big"
 )
 
 type BitCoinWallet struct {
+	token *model.Token
+}
+
+func (e *BitCoinWallet) NewWallet(token *model.Token) interfaces.UxtoWallet {
+	return &BitCoinWallet{token: token}
 }
 
 func (e *BitCoinWallet) GetSupportToken() []*model.Token {
@@ -20,14 +26,14 @@ func (e *BitCoinWallet) GetBalance(address string) (*big.Int, error) {
 	return nil, nil
 }
 
-func (e *BitCoinWallet) GetUnsignTx(senders []*model.Sender, recievers []*model.Reciever) (string, error) {
-	return "", nil
+func (e *BitCoinWallet) GetUnsignTx(transferParams []*model.TransferParam) (*model.UnsignTx, error) {
+	return nil, nil
 }
 
-func (e *BitCoinWallet) SignTx(privateKey []string, unsignTx string) (string, error) {
-	return "", nil
+func (e *BitCoinWallet) SignTx(privateKey []string, unsignTx *model.UnsignTx) (*model.SignTx, error) {
+	return nil, nil
 }
 
-func (e *BitCoinWallet) SendTx(signTx string) (string, error) {
+func (e *BitCoinWallet) SendTx(signTx *model.SignTx) (string, error) {
 	return "", nil
 }

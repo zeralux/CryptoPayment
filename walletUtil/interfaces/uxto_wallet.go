@@ -5,12 +5,13 @@ import (
 )
 
 type UxtoWallet interface {
+	NewWallet(token *model.Token) UxtoWallet
 	Wallet
 	utxoTransfer
 }
 
 type utxoTransfer interface {
-	GetUnsignTx(senders []*model.Sender, recievers []*model.Reciever) (string, error)
-	SignTx(privateKey []string, unsignTx string) (string, error)
-	SendTx(signTx string) (string, error)
+	GetUnsignTx(transferParams []*model.TransferParam) (*model.UnsignTx, error)
+	SignTx(privateKey []string, unsignTx *model.UnsignTx) (*model.SignTx, error)
+	SendTx(signTx *model.SignTx) (string, error)
 }

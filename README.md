@@ -1,19 +1,21 @@
 ## 目標
-+ 區塊鏈
-+ gin web framework
-+ swagger
 + docker微服務
++ swagger
++ gin framework
++ gorm framework
++ 區塊鏈交易錢包工具
 
+## docker
 ## 1. 啟動Mysql
-
 ## 2. 啟動HTTP服務
     # swag init
     
     $ run example.go and visit 0.0.0.0:8080/ping (for windows "localhost:8080/ping") on browser
     # go run main.go
+## 3. 開始區塊練交易
 
 ----
-## swagger說明
+## swagger補充說明
 #### 預設頁面
 + http://localhost:8080/swagger/index.html
 

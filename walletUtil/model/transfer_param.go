@@ -1,12 +1,9 @@
 package model
 
-import (
-	"math/big"
-)
+import "math/big"
 
-type TransferReq struct {
+type TransferParam struct {
 	FromAddress string
 	ToAddress   string
 	Value       *big.Int
-	PrivateKey  string
 }

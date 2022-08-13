@@ -1,16 +1,15 @@
 package interfaces
 
-import (
-	"math/big"
-)
+import "github.com/zeralux/gin/walletUtil/model"
 
 type AccountWallet interface {
+	NewWallet(token *model.Token) AccountWallet
 	Wallet
 	accountTransfer
 }
 
 type accountTransfer interface {
-	GetUnsignTx(senderAddress, recevierAddress string, value *big.Int) (string, error)
-	SignTx(privateKey string, unsignTx string) (string, error)
-	SendTx(signTx string) (string, error)
+	GetUnsignTx(transferParam *model.TransferParam) (*model.UnsignTx, error)
+	SignTx(privateKey string, unsignTx *model.UnsignTx) (*model.SignTx, error)
+	SendTx(signTx *model.SignTx) (string, error)
 }
