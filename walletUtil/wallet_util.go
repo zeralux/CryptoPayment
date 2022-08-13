@@ -7,55 +7,51 @@ import (
 	"github.com/zeralux/gin/walletUtil/wallet"
 )
 
-type WalletUtil struct {
-	assetName string
-	wallet    interfaces.Wallet
+var wallets = []interfaces.Wallet{
+	new(wallet.Ethereum),
+	new(wallet.BitCoin),
 }
 
-func NewWalletUtil(assetName string) (*WalletUtil, error) {
-	WalletUtil := &WalletUtil{assetName: assetName}
-	if wallet := WalletUtil.getAccountWallet(); wallet != nil {
-		WalletUtil.wallet = wallet
+var supportTokens map[model.TokenId]interfaces.Wallet
+
+// restful load static data
+func init() {
+	for _, wallet := range wallets {
+		// check
+		switch wallet.(type) {
+		case interfaces.AccountWallet:
+		case interfaces.UxtoWallet:
+		default:
+			continue
+		}
+		for _, supportToken := range wallet.GetSupportToken() {
+			// check
+			if supportTokens[supportToken.TokenId()] != nil {
+				continue
+			}
+			supportTokens[supportToken.TokenId()] = wallet
+		}
 	}
-	if wallet := WalletUtil.getUxtoWallet(); wallet != nil {
-		WalletUtil.wallet = wallet
-	}
-	if WalletUtil.wallet == nil {
-		return nil, errors.New("new WalletUtil fail, not implement " + assetName + " wallet")
-	}
-	return WalletUtil, nil
 }
 
-func (w *WalletUtil) Transfer(transferData model.TransferData) (string, error) {
-	switch w.wallet.(type) {
+// 單筆
+func Transfer(transferData model.TransferData) (string, error) {
+	tokenId := transferData.Token.TokenId()
+	wallet := supportTokens[tokenId]
+	switch wallet.(type) {
 	case interfaces.AccountWallet:
-		wallet := w.wallet.(interfaces.AccountWallet)
-		wallet.GetUnsignTx(transferData.SenderAddress, transferData.RecieverAddress, transferData.Value)
-
+		accountWallet := wallet.(interfaces.AccountWallet)
+		return transferAccount(accountWallet, &transferData)
 	case interfaces.UxtoWallet:
-		wallet := w.wallet.(interfaces.UxtoWallet)
-		wallet.GetUnsignTx(make([]model.Sender, 0), make([]model.Reciever, 0))
+		return "", errors.New("wallet not found")
+	default:
+		return "", errors.New("wallet not found")
 	}
-	return "", errors.New("wallet not found")
 }
 
-func (w *WalletUtil) TransferBatch(transferData []model.TransferData) (string, error) {
-	switch w.wallet.(type) {
-	case interfaces.AccountWallet:
-		//wallet := w.wallet.(interfaces.AccountWallet)
-		//wallet.GetUnsignTx(transferData.SenderAddress, transferData.ToAddress, transferData.Value)
-
-	case interfaces.UxtoWallet:
-		//wallet := w.wallet.(interfaces.UxtoWallet)
-		//wallet.GetUnsignTx(make([]model.Sender, 0), make([]model.Reciever, 0))
-	}
-	return "", errors.New("wallet not found")
-}
-
-func (w *WalletUtil) getAccountWallet() interfaces.AccountWallet {
-	return new(wallet.Ethereum)
-}
-
-func (w *WalletUtil) getUxtoWallet() interfaces.UxtoWallet {
-	return nil
+// 單筆
+func transferAccount(accountWallet interfaces.AccountWallet, transferData *model.TransferData) (string, error) {
+	unsignTx, _ := accountWallet.GetUnsignTx(transferData.SenderAddress, transferData.RecieverAddress, transferData.Value)
+	signTx, _ := accountWallet.SignTx(transferData.PrivateKey, unsignTx)
+	return accountWallet.SendTx(signTx)
 }

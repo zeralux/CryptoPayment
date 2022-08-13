@@ -10,7 +10,7 @@ type AccountWallet interface {
 }
 
 type accountTransfer interface {
-	GetUnsignTx(senderAddress, reeevierAddress string, value big.Int) (string, error)
+	GetUnsignTx(senderAddress, recevierAddress string, value *big.Int) (string, error)
 	SignTx(privateKey string, unsignTx string) (string, error)
 	SendTx(signTx string) (string, error)
 }
