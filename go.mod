@@ -1,4 +1,4 @@
-module github.com/zeralux/gin
+module github.com/zeralux/CryptoPayment
 
 go 1.17
 
