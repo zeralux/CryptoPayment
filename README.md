@@ -1,9 +1,10 @@
 ## 目標
-+ docker微服務
++ 區塊鏈支付服務
++ docker
 + swagger
 + gin framework
 + gorm framework
-+ 區塊鏈交易錢包工具
++ 支援多加密貨幣幣種
 
 ## docker
 ## 1. 啟動Mysql
