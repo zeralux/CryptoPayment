@@ -3,7 +3,7 @@ package v1
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/zeralux/CryptoPayment/model"
+	"github.com/zeralux/CryptoPayment/api/model"
 	"io"
 	"net/http"
 	"os"

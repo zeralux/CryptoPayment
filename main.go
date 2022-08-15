@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/zeralux/CryptoPayment/constant"
-	controllerV1 "github.com/zeralux/CryptoPayment/controller/v1"
+	"github.com/zeralux/CryptoPayment/api/constant"
+	v1 "github.com/zeralux/CryptoPayment/api/controller/v1"
 	docs "github.com/zeralux/CryptoPayment/docs"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
@@ -30,8 +30,8 @@ func main() {
 	// 對外API, GateWay不檢查token
 	ver1Url := router.Group(constant.Ver1Url)
 	{
-		ver1Url.GET(constant.UsersUrl, controllerV1.GetUsers)
-		ver1Url.GET(constant.UsersFileUrl, controllerV1.GetUsersFile)
+		ver1Url.GET(constant.UsersUrl, v1.GetUsers)
+		ver1Url.GET(constant.UsersFileUrl, v1.GetUsersFile)
 	}
 
 	// 對外API, GateWay檢查token
@@ -39,7 +39,7 @@ func main() {
 	{
 		ver1Url := privateUrl.Group(constant.Ver1Url)
 		{
-			ver1Url.GET(constant.UserIdUrl, controllerV1.GetUser)
+			ver1Url.GET(constant.UserIdUrl, v1.GetUser)
 		}
 	}
 
@@ -48,9 +48,9 @@ func main() {
 	{
 		ver1Url := internalUrl.Group(constant.Ver1Url)
 		{
-			ver1Url.POST(constant.UserUrl, controllerV1.InsertUser)
-			ver1Url.PATCH(constant.UserIdUrl, controllerV1.UpdateUser)
-			ver1Url.DELETE(constant.UserIdUrl, controllerV1.DeleteUser)
+			ver1Url.POST(constant.UserUrl, v1.InsertUser)
+			ver1Url.PATCH(constant.UserIdUrl, v1.UpdateUser)
+			ver1Url.DELETE(constant.UserIdUrl, v1.DeleteUser)
 		}
 	}
 
