@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/zeralux/CryptoPayment/api"
@@ -19,13 +20,13 @@ func main() {
 	// 讀取yml
 	loadAppConfig()
 
-	router := api.GetApiRouter()
-	// swagger
+	// api router
+	router := api.GetRouter()
+	// swagger router
 	docs.SwaggerInfo.BasePath = "/"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-	//err := router.Run("0.0.0.0:" + strconv.Itoa(*servicePort))
-	err := router.Run(":8080")
+	// run service
+	err := router.Run(fmt.Sprintf(":%d", *servicePort))
 	if err != nil {
 		panic(err)
 	}

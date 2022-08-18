@@ -12,7 +12,8 @@ RUN make build
 FROM base
 WORKDIR /app
 COPY --from=build /build/bin/*.* .
-EXPOSE 8080
-CMD [ "sh", "-c", "./main" ]
+ENV PORT 8080
+EXPOSE $PORT
+CMD [ "sh", "-c", "./main -service.port=${PORT}" ]
 
 

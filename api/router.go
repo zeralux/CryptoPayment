@@ -6,7 +6,7 @@ import (
 	"github.com/zeralux/CryptoPayment/api/controller/v1"
 )
 
-func GetApiRouter() *gin.Engine {
+func GetRouter() *gin.Engine {
 	// gin start
 	router := gin.Default()
 
@@ -36,6 +36,5 @@ func GetApiRouter() *gin.Engine {
 			ver1Url.DELETE(constant.UserIdUrl, v1.DeleteUser)
 		}
 	}
-
 	return router
 }
