@@ -1,14 +1,19 @@
 LOCATION:= bin
+YML:=application-local.yml
 
-refresh:
+install:
+	go install github.com/swaggo/swag/cmd/swag@latest
+	go install github.com/krashanoff/copypasta@latest
+
+refresh_mod:
 	go mod tidy
 
-swagger: refresh
-	go install github.com/swaggo/swag/cmd/swag@latest
+refresh_swagger:
 	swag init
 
-build: refresh swagger
-	env GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/main main.go
+build: install refresh_mod refresh_swagger
+	copypasta -i $(YML) -o $(LOCATION)/$(YML) -v
+	go build -ldflags="-s -w" -o $(LOCATION)/main main.go
 
 start: build
 	go run main.go
