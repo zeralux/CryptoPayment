@@ -19,15 +19,13 @@ func main() {
 	flag.Parse()
 	// 讀取yml
 	loadAppConfig()
-
 	// api router
 	router := api.GetRouter()
 	// swagger router
 	docs.SwaggerInfo.BasePath = "/"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	// run service
-	err := router.Run(fmt.Sprintf(":%d", *servicePort))
-	if err != nil {
+	if err := router.Run(fmt.Sprintf(":%d", *servicePort)); err != nil {
 		panic(err)
 	}
 }
