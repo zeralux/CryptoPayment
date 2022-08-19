@@ -26,7 +26,7 @@
 
 #### 預設頁面
 
-+ http://127.0.0.1:8080/swagger/index.html
++ http://localhost:8080/swagger/index.html
 
 #### Example
 
