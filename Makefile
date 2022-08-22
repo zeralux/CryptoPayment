@@ -5,13 +5,11 @@ install:
 	go install github.com/swaggo/swag/cmd/swag@latest
 	go install github.com/krashanoff/copypasta@latest
 
-refresh_mod:
+refresh:
+	swag init
 	go mod tidy
 
-refresh_swagger:
-	swag init
-
-build: install refresh_mod refresh_swagger
+build: install refresh
 	copypasta -i $(YML) -o $(LOCATION)/$(YML) -v
 	go build -ldflags="-s -w" -o $(LOCATION)/main main.go
 

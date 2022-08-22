@@ -27,7 +27,7 @@ func main() {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// run service
-	if err := router.Run(fmt.Sprintf(":%d", appConfig.Service.Port)); err != nil {
+	if err := router.Run(fmt.Sprintf(":%d", appConfig.Service().Port())); err != nil {
 		panic(err)
 	}
 }
