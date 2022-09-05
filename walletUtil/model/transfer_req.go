@@ -5,6 +5,7 @@ import (
 )
 
 type TransferReq struct {
+	Token       Token
 	FromAddress string
 	ToAddress   string
 	Value       *big.Int

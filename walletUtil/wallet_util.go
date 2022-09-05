@@ -2,61 +2,66 @@ package walletUtil
 
 import (
 	"errors"
-	"github.com/zeralux/CryptoPayment/walletUtil/interfaces"
 	"github.com/zeralux/CryptoPayment/walletUtil/model"
-	"github.com/zeralux/CryptoPayment/walletUtil/util"
+	"github.com/zeralux/CryptoPayment/walletUtil/wallet"
+	"math/big"
 )
 
-var accountWallets = []interfaces.AccountWallet{
-	new(util.EthereumWallet),
+// 手動加入
+var accountWallets = map[string]wallet.AccountWallet{
+	string(model.Ethereum): new(wallet.EthereumWallet),
 }
-var uxtoWallets = []interfaces.UxtoWallet{
-	new(util.BitCoinWallet),
-}
-var accountTokens = map[model.TokenId]interfaces.AccountWallet{}
-var uxtoTokens = map[model.TokenId]interfaces.UxtoWallet{}
 
-// restful load static data
+// 手動加入
+var uxtoWallets = map[string]wallet.UxtoWallet{
+	model.BitCoin: new(wallet.BitCoinWallet),
+}
+var chainOperations = map[string]wallet.ChainOperation{}
+
 func init() {
-	for _, accountWallet := range accountWallets {
-		for _, supportToken := range accountWallet.GetSupportToken() {
-			accountTokens[supportToken.GetId()] = accountWallet.NewWallet(supportToken)
-		}
+	for chainName, wallet := range accountWallets {
+		chainOperations[chainName] = wallet
 	}
-	for _, uxtoWallet := range uxtoWallets {
-		for _, supportToken := range uxtoWallet.GetSupportToken() {
-			uxtoTokens[supportToken.GetId()] = uxtoWallet.NewWallet(supportToken)
-		}
+	for chainName, wallet := range uxtoWallets {
+		chainOperations[chainName] = wallet
 	}
+}
+
+func GetLatestBlockNumber(chainName model.ChainName) (*big.Int, error) {
+	if wallet, ok := chainOperations[string(chainName)]; ok {
+		return wallet.GetLatestBlockNumber()
+	}
+	return nil, errors.New("wallet not found")
 }
 
 // 單筆轉帳
 // 一次執行單一幣種
-func Transfer(tokenId model.TokenId, transferReq model.TransferReq) (string, error) {
-	if wallet, ok := accountTokens[tokenId]; ok {
-		return transferAccountValue(wallet, &transferReq)
+func Transfer(transferReq model.TransferReq) (string, error) {
+	token := transferReq.Token
+	if wallet, ok := accountWallets[string(token.ChainName)]; ok {
+		return transferAccountValue(wallet, transferReq)
 	}
-	if wallet, ok := uxtoTokens[tokenId]; ok {
-		return transferUxtoValue(wallet, &transferReq)
+	if wallet, ok := uxtoWallets[string(token.ChainName)]; ok {
+		return transferUxtoValue(wallet, transferReq)
 	}
 	return "", errors.New("wallet not found")
 }
 
 // 單筆
-func transferAccountValue(accountWallet interfaces.AccountWallet, transferReq *model.TransferReq) (string, error) {
-	transferParam := &model.TransferParam{
+func transferAccountValue(accountWallet wallet.AccountWallet, transferReq model.TransferReq) (string, error) {
+	transferParam := model.TransferParam{
 		FromAddress: transferReq.FromAddress,
 		ToAddress:   transferReq.ToAddress,
 		Value:       transferReq.Value,
 	}
 	unsignTx, _ := accountWallet.GetUnsignTx(transferParam)
-	signTx, _ := accountWallet.SignTx(transferReq.PrivateKey, unsignTx)
-	return accountWallet.SendTx(signTx)
+	signTx, _ := accountWallet.SignTx(transferReq.PrivateKey, *unsignTx)
+	return accountWallet.SendTx(*signTx)
 }
 
 // 單筆
-func transferUxtoValue(uxtoWallet interfaces.UxtoWallet, transferReq *model.TransferReq) (string, error) {
-	transferParams := []*model.TransferParam{
+func transferUxtoValue(uxtoWallet wallet.UxtoWallet, transferReq model.TransferReq) (string, error) {
+	transferParams := []model.TransferParam{
 		{
 			FromAddress: transferReq.FromAddress,
 			ToAddress:   transferReq.ToAddress,
@@ -65,6 +70,6 @@ func transferUxtoValue(uxtoWallet interfaces.UxtoWallet, transferReq *model.Tran
 	}
 	privateKeys := []string{transferReq.PrivateKey}
 	unsignTx, _ := uxtoWallet.GetUnsignTx(transferParams)
-	signTx, _ := uxtoWallet.SignTx(privateKeys, unsignTx)
-	return uxtoWallet.SendTx(signTx)
+	signTx, _ := uxtoWallet.SignTx(privateKeys, *unsignTx)
+	return uxtoWallet.SendTx(*signTx)
 }

@@ -82,7 +82,6 @@ func UpdateUser(c *gin.Context) {
 // @Produce json
 // @Router /internal/v1/user/{id} [delete]
 func DeleteUser(c *gin.Context) {
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "UpdateUser",
 	})
